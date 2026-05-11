@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AFK Labs ToonVault</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">AFK</span>
+          <div>
+            <p class="eyebrow">AFK Labs</p>
+            <h1>ToonVault</h1>
+          </div>
+        </div>
+        <button id="helpBtn" class="ghost small">Ajuda</button>
+      </header>
+
+      <section class="layout">
+        <section class="left-column">
+          <article class="panel step-card">
+            <div class="step-head">
+              <span class="step-number">1</span>
+              <div>
+                <p class="section-kicker">Links</p>
+                <h2>Adicione as obras</h2>
+              </div>
+            </div>
+            <textarea id="urlInput" spellcheck="false" placeholder="Cole links do Webtoon aqui, um por linha..."></textarea>
+            <div class="actions">
+              <button id="addBtn" class="primary">Adicionar</button>
+              <p id="addFeedback" class="feedback">Exemplo: /list?title_no=...</p>
+            </div>
+          </article>
+
+          <article class="panel step-card">
+            <div class="step-head">
+              <span class="step-number">2</span>
+              <div>
+                <p class="section-kicker">Destino</p>
+                <h2>Configure a saida</h2>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Pasta</span>
+              <div class="folder-row">
+                <input id="savePath" type="text" readonly placeholder="Nenhuma pasta selecionada" />
+                <button id="folderBtn" class="ghost">Escolher</button>
+              </div>
+            </label>
+
+            <div class="compact-grid">
+              <label class="field">
+                <span>Formato</span>
+                <select id="saveAs">
+                  <option value="pdf">PDF</option>
+                  <option value="cbz">CBZ</option>
+                  <option value="images">Imagens</option>
+                  <option value="single">Imagem unica</option>
+                </select>
+              </label>
+
+              <div class="toggle-stack">
+                <label class="toggle">
+                  <input id="groupByComic" type="checkbox" checked />
+                  <span>Separar por obra</span>
+                </label>
+                <label class="toggle">
+                  <input id="groupByChapter" type="checkbox" />
+                  <span>Separar por capitulo</span>
+                </label>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="right-column">
+          <article class="panel queue-panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Fila</p>
+                <h2>Capitulos</h2>
+              </div>
+              <div class="toolbar">
+                <button id="removeBtn" class="ghost small">Remover</button>
+                <button id="clearBtn" class="ghost small danger">Limpar</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Obra</th>
+                    <th>Inicio</th>
+                    <th>Fim</th>
+                  </tr>
+                </thead>
+                <tbody id="queueBody">
+                  <tr class="empty-row">
+                    <td colspan="3">Fila vazia.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel status-panel">
+            <p class="section-kicker">Status</p>
+            <h2 id="statusText">Pronto para iniciar.</h2>
+            <div class="progress">
+              <span id="progressBar"></span>
+            </div>
+            <button id="startBtn" class="primary large">Iniciar download</button>
+            <pre id="logs">AFK Labs ToonVault iniciado.</pre>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <div id="helpModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-help></div>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <header class="modal-head">
+          <div>
+            <p class="section-kicker">Guia rapido</p>
+            <h2 id="helpTitle">Como usar o ToonVault</h2>
+          </div>
+          <button id="closeHelpBtn" class="ghost small">Fechar</button>
+        </header>
+
+        <div class="help-content">
+          <article>
+            <h3>1. Adicione links de obras</h3>
+            <p>Insira no campo de links todas as historias em quadrinhos que deseja baixar. Coloque um link por linha.</p>
+            <p>Use apenas links da pagina da obra, terminando em <code>/list?title_no=...</code>. Nao use links de capitulos especificos.</p>
+            <div class="example good">
+              <span>Funciona</span>
+              <code>https://www.webtoons.com/en/action/hero-killer/list?title_no=2745</code>
+            </div>
+            <div class="example bad">
+              <span>Nao funciona</span>
+              <code>https://www.webtoons.com/en/action/hero-killer/episode-1/viewer?title_no=2745&amp;episode_no=1</code>
+            </div>
+            <p>Depois clique em <strong>Adicionar</strong>. Se uma obra nao aparecer na fila, o link provavelmente e invalido ou nao e uma pagina de lista.</p>
+          </article>
+
+          <article>
+            <h3>2. Organize a fila</h3>
+            <p>Cada obra adicionada aparece na fila com capitulo inicial e final.</p>
+            <ul>
+              <li>O inicio padrao e <strong>1</strong>.</li>
+              <li>O fim padrao e <strong>end</strong>, que significa baixar ate o ultimo capitulo disponivel.</li>
+              <li>Voce pode trocar esses valores por qualquer numero maior que zero.</li>
+              <li>O capitulo inicial precisa ser menor ou igual ao capitulo final.</li>
+            </ul>
+            <p>Selecione uma linha e use <strong>Remover</strong> para excluir uma obra, ou <strong>Limpar</strong> para apagar toda a fila.</p>
+          </article>
+
+          <article>
+            <h3>3. Escolha pasta e formato</h3>
+            <p>Clique em <strong>Escolher</strong> para selecionar onde os arquivos serao salvos.</p>
+            <p>Voce tambem pode separar os downloads em subpastas por obra e, no modo de imagens, por capitulo.</p>
+            <ul>
+              <li><strong>PDF:</strong> cada imagem vira uma pagina; o app cria um PDF por capitulo.</li>
+              <li><strong>CBZ:</strong> cria um arquivo de quadrinhos por capitulo.</li>
+              <li><strong>Imagens:</strong> salva cada imagem separadamente.</li>
+              <li><strong>Imagem unica:</strong> une as imagens do capitulo em uma imagem vertical.</li>
+            </ul>
+            <p class="warning">Atencao: se uma imagem unica passar de 30.000 pixels de altura, ela sera redimensionada. Em capitulos muito longos, PDF costuma preservar melhor a leitura.</p>
+          </article>
+
+          <article>
+            <h3>4. Inicie o download</h3>
+            <p>Quando tudo estiver pronto, clique em <strong>Iniciar download</strong> e aguarde. Durante o processo, os controles ficam bloqueados para evitar mudancas na fila.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
